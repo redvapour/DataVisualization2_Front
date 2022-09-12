@@ -1,24 +1,58 @@
 # data_visualization
 
-## Project setup
-```
-npm install
-```
+[在线预览](http://redvapour.top:51027/#/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 1.项目介绍
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#### 1.综合概述
 
-### Lints and fixes files
-```
-npm run lint
-```
+基于echarts的数据可视化项目，完成柱状图、折线图、饼图、地图等图表功能并赋予不同的特效，进行动态展示，且实现主题切换、单个图表全屏功能，整体页面实现响应式。
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### 2.趋势图
+
++ 实现商家、商品等三张图表的切换
++ 一次请求回三个图表数据，点击切换更换allData[type]，使得图表进行更新
+
+#### 3.横向柱状图
+
+* 实现排行动态全页切换
+* 请求回数据后，根据数据数目计算总页数，开定时器让当前页进行自增，slice切割数据，进行动态展示
+
+#### 4.地图+散点图
+
++ 实现点击放大省份，双击回退到全国。（bug：点击省份下的市无法放大，错误也未处理）
++ 点击时启动echarts的click事件，根据点击省份的name属性，向后台请求，对应省份数据，进行展示
+
+#### 5.竖向柱状图
+
+* 实现数据一条的切换
+* 开定时器，利用echarts的dataZoom配置项进行对图片的缩放
+
+#### 6.饼图
+
++ 实现图表切换
++ 点击左右箭头切换allData下的属性
+
+#### 7.环形图
+
++ 实现几个类别动态切换
++ 开定时器（bug：label的 position: "center"就不显示，官网暂无相应效果图表）
+
+### 2.设计思路
+
++ ininChart()初始化与数据不相关的配置
++ getData()发请求处理数据
++ updateChart()处理数据，添加数据相关配置项
++ 处理不同图表相关业务逻辑
++ 屏幕适配，rem+监听window的resize事件+echartsInstance.resize()
+
+### 3.后台设计
+
++ 使用Koa2搭建，使用三层中间件，第一层计算相应时间，第二层处理跨域，第三层读数据
++ 采用fs.readFile读取数据
+
+### 4.涉及技术栈
+
+主要技术：vue2，vue-router，echarts
+
+其他：vuex（简单存储了一下主题，使所有组件共用），moment（格式化时间）
